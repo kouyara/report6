@@ -7,20 +7,56 @@ import static jp.ac.uryukyu.ie.e215705.OthelloBoard.white;
 
 public class Player {
 
-    public String checkInput() {
+    public String input() {
         // プレイヤーが置く石の位置を入力してもらう。
-        // 正規表現を使って、プレイヤーが正しく置けているかチェックする。
-        // 正しく置けていたらプレイヤーが入力した文字列を返す。
-        // 正しくなかったらnullを返す。
         String input;
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input > ");
         input = scanner.nextLine();
-        if (input.matches("[1-8]-[1-8]")) {
+        return input;
+    }
+
+    public boolean checkInput(String input) {
+        // 正規表現を使って、プレイヤーが正しく置けているかチェックする。
+        // 正しく置けていたら、trueを返す。
+
+        return input.matches("[1-8]-[1-8]");
+    }
+
+    public String runUntilCanPut(String stone) {
+        // プレイヤーが置くことのできるマスに置くまで、プレイヤーに入力し続けてもらうメソッド。
+        // 正しく入力できたら、入力した文字列を返す。
+        // 置くことのできるマスがない時、プレイヤーはパスを行い、nullを返す。
+        int[] lineRow = new int[2];
+        String input = "";
+        int i = 1;
+        int j = 1;
+
+        if (checkCanPut(stone)) {
+            do {
+                if (j >= 2) {
+                    System.out.println("ここは置けません");
+                    System.out.println("もう一度入力してください。");
+                }
+                input = input();
+                while (!checkInput(input)) {
+                    // 正しかったら抜ける。
+                        System.out.println("もう一度正しく入力してください。");
+                    i++;
+                    input = input();
+
+                }
+                lineRow = inputToLineRow(input);
+                j++;
+
+            } while ( ! (checkOverlap(lineRow) && checkSandwich(stone, lineRow)));
             return input;
         } else {
+            System.out.println("パス");
             return null;
         }
+
     }
 
     public int[] inputToLineRow(String input) {
@@ -39,7 +75,7 @@ public class Player {
         return lineRow;
     }
 
-    public boolean overlapStone(int[] lineRow) {
+    public boolean checkOverlap(int[] lineRow) {
         // プレイヤーの置くマスが他の石とかぶっているかチェックする。
         // かぶっていなかったらtrueを返す。
         int line = lineRow[0];
@@ -48,7 +84,7 @@ public class Player {
         return aBoard[line][row] != black && aBoard[line][row] != white;
     }
 
-    public boolean sandwichStone(String stone, int[] lineRow) {
+    public boolean checkSandwich(String stone, int[] lineRow) {
         // プレイヤーの置くマスがちゃんと挟めているかチェックする。
         // 挟めていたらtrue、挟めていなかったらfalseを返す。
         int line = lineRow[0];
@@ -163,6 +199,24 @@ public class Player {
         } else {
             return false;
         }
+    }
+
+    public boolean checkCanPut(String stone) {
+        // 置くことのできるマスがあるときtrueを返すメソッド。
+        // 置くことのできるマスがない時、falseを返す。
+        int[] lineRow = new int[2];
+        boolean bool = false;
+
+        for (int line = 1; line <= 8; line++) {
+            for (int row = 1; row <= 8; row++) {
+                lineRow[0] = line;
+                lineRow[1] = row;
+                if (checkOverlap(lineRow) && checkSandwich(stone, lineRow)) {
+                    return true;
+                }
+            }
+        }
+        return bool;
     }
 
     public void putAStone(String stone, int[] lineRow) {

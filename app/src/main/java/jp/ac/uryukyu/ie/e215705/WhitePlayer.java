@@ -1,26 +1,23 @@
 package jp.ac.uryukyu.ie.e215705;
 
 public class WhitePlayer {
-    
+
     public void oneMoveWhite() {
         String input;
         int[] lineRow;
-        boolean bool1;
-        boolean bool2;
+        int[] direction;
 
         Player playerWhite = new Player();
-        input = playerWhite.checkInput();
-        lineRow = playerWhite.inputToLineRow(input);
-        bool1 = playerWhite.overlapStone(lineRow);
-        bool2 = playerWhite.sandwichStone(OthelloBoard.white, lineRow);
-        if (bool1 && bool2) {
+        System.out.println("白の人の番です。");
+        input = playerWhite.runUntilCanPut(OthelloBoard.white);
+        if (input == null){
+            //パス
+        }else{
+            lineRow = playerWhite.inputToLineRow(input);
             playerWhite.putAStone(OthelloBoard.white, lineRow);
-            int[] direction = playerWhite.directionSandwichStone(OthelloBoard.white, lineRow);
+            direction = playerWhite.directionSandwichStone(OthelloBoard.white, lineRow);
             playerWhite.turnAStone(direction, OthelloBoard.white, lineRow);
-        } else {
-            System.out.println("ここは置けません");
         }
         OthelloBoard.boardPrint();
-
     }
 }

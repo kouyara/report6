@@ -6,8 +6,11 @@ public class Main {
         WhitePlayer whitePlayer = new WhitePlayer();
 
         OthelloBoard.boardInitation();
-        blackPlayer.oneMoveBlack();
-        whitePlayer.oneMoveWhite();
-
+        
+        while ( ! OthelloBoard.checkEndBoard()) {
+            blackPlayer.oneMoveBlack();
+            whitePlayer.oneMoveWhite();
+        }
+        OthelloBoard.endBoard();
     }
 }
