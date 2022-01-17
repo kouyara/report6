@@ -2,6 +2,9 @@ package jp.ac.uryukyu.ie.e215705;
 
 public class BlackPlayer {
 
+    /**
+     * 黒のプレイヤーの一手を行うメソッド。
+     */
     public void oneMoveBlack() {
         String input;
         int[] lineRow;
@@ -15,7 +18,7 @@ public class BlackPlayer {
         }else{
             lineRow = playerBlack.inputToLineRow(input);
             playerBlack.putAStone(OthelloBoard.black, lineRow);
-            direction = playerBlack.directionSandwichStone(OthelloBoard.black, lineRow);
+            direction = playerBlack.directionStone(OthelloBoard.black, lineRow);
             playerBlack.turnAStone(direction, OthelloBoard.black, lineRow);
         }
         OthelloBoard.boardPrint();

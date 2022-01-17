@@ -5,7 +5,7 @@ public class Main {
         BlackPlayer blackPlayer = new BlackPlayer();
         WhitePlayer whitePlayer = new WhitePlayer();
 
-        OthelloBoard.boardInitation();
+        OthelloBoard.gameInitiation();
         
         while ( ! OthelloBoard.checkEndBoard()) {
             blackPlayer.oneMoveBlack();

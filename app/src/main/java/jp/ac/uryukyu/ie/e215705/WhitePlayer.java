@@ -2,7 +2,10 @@ package jp.ac.uryukyu.ie.e215705;
 
 public class WhitePlayer {
 
-    public void oneMoveWhite() {
+    /**
+     * 白のプレイヤーの一手を行うメソッド。
+     */
+    public void oneMoveWhite() {            
         String input;
         int[] lineRow;
         int[] direction;
@@ -15,7 +18,7 @@ public class WhitePlayer {
         }else{
             lineRow = playerWhite.inputToLineRow(input);
             playerWhite.putAStone(OthelloBoard.white, lineRow);
-            direction = playerWhite.directionSandwichStone(OthelloBoard.white, lineRow);
+            direction = playerWhite.directionStone(OthelloBoard.white, lineRow);
             playerWhite.turnAStone(direction, OthelloBoard.white, lineRow);
         }
         OthelloBoard.boardPrint();

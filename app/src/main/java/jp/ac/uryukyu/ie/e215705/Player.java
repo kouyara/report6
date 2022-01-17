@@ -7,8 +7,11 @@ import static jp.ac.uryukyu.ie.e215705.OthelloBoard.white;
 
 public class Player {
 
+    /**
+     * プレイヤーに置く石の位置を入力してもらうメソッド。
+     * @return プレイヤーが入力した文字列
+     */
     public String input() {
-        // プレイヤーが置く石の位置を入力してもらう。
         String input;
 
         Scanner scanner = new Scanner(System.in);
@@ -17,20 +20,25 @@ public class Player {
         return input;
     }
 
+    /**
+     * プレイヤーが正しく書けているかを、正規表現を使ってチェックするメソッド。
+     * @param input プレイヤーが入力した文字列
+     * @return 正しく置けていたら、trueを返す。
+     */
     public boolean checkInput(String input) {
-        // 正規表現を使って、プレイヤーが正しく置けているかチェックする。
-        // 正しく置けていたら、trueを返す。
 
         return input.matches("[1-8]-[1-8]");
     }
 
+    /**
+     * プレイヤーが置くことのできるマスに置くまで、プレイヤーに入力し続けてもらうメソッド。
+     * 置くことのできるマスがない時、プレイヤーはパスを行い、返り値はnullを返す。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @return 正しく入力できていたら、入力した文字列を返す。置くことのできるマスがない時、nullを返す。
+     */
     public String runUntilCanPut(String stone) {
-        // プレイヤーが置くことのできるマスに置くまで、プレイヤーに入力し続けてもらうメソッド。
-        // 正しく入力できたら、入力した文字列を返す。
-        // 置くことのできるマスがない時、プレイヤーはパスを行い、nullを返す。
         int[] lineRow = new int[2];
         String input = "";
-        int i = 1;
         int j = 1;
 
         if (checkCanPut(stone)) {
@@ -43,7 +51,6 @@ public class Player {
                 while (!checkInput(input)) {
                     // 正しかったら抜ける。
                         System.out.println("もう一度正しく入力してください。");
-                    i++;
                     input = input();
 
                 }
@@ -59,9 +66,12 @@ public class Player {
 
     }
 
+    /**
+     * プレイヤーが入力した文字列から数字だけを抜き取り、int型に変換し、配列に格納して返すメソッド。
+     * @param input プレイヤーが入力した文字列
+     * @return 横の行数、縦の列数の情報が入ったint配列
+     */
     public int[] inputToLineRow(String input) {
-        // プレイヤーが入力した文字列を引数にとる。
-        // 引数の文字列から、分解して横列と縦列の整数に変換する。
         String[] inputArray;
         int line;
         int row;
@@ -75,18 +85,25 @@ public class Player {
         return lineRow;
     }
 
+    /**
+     * プレイヤーの置くマスが他の石とかぶっているかチェックするメソッド。
+     * @param lineRow 横の行数、縦の列数の情報が入ったint配列
+     * @return 他の石とかぶっていなかったらtrueを返す。
+     */
     public boolean checkOverlap(int[] lineRow) {
-        // プレイヤーの置くマスが他の石とかぶっているかチェックする。
-        // かぶっていなかったらtrueを返す。
         int line = lineRow[0];
         int row = lineRow[1];
 
         return aBoard[line][row] != black && aBoard[line][row] != white;
     }
 
+    /**
+     * プレイヤーの置くマスが相手の石をひっくり返せるかチェックするメソッド。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @param lineRow 横の行数、縦の列数の情報が入ったint配列
+     * @return 相手のマスと挟めていたらtrue、挟めていなかったらfalseを返す。
+     */
     public boolean checkSandwich(String stone, int[] lineRow) {
-        // プレイヤーの置くマスがちゃんと挟めているかチェックする。
-        // 挟めていたらtrue、挟めていなかったらfalseを返す。
         int line = lineRow[0];
         int row = lineRow[1];
         String anotherStone = "";
@@ -201,9 +218,12 @@ public class Player {
         }
     }
 
+    /**
+     * 置くことのできるマスがあるかチェックするメソッド。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @return 置くことのできるマスがあるときtrueを返し、置くことのできるマスがない時、falseを返す。
+     */
     public boolean checkCanPut(String stone) {
-        // 置くことのできるマスがあるときtrueを返すメソッド。
-        // 置くことのできるマスがない時、falseを返す。
         int[] lineRow = new int[2];
         boolean bool = false;
 
@@ -219,19 +239,25 @@ public class Player {
         return bool;
     }
 
+    /**
+     * プレイヤーが入力した場所に石を置くメソッド。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @param lineRow 横の行数、縦の列数の情報が入ったint配列。
+     */
     public void putAStone(String stone, int[] lineRow) {
-        // プレイヤーが石を置くメソッド。
         int line = lineRow[0];
         int row = lineRow[1];
 
         aBoard[line][row] = stone;
     }
 
-    public int[] directionSandwichStone(String stone, int[] lineRow) {
-        // どの方向が挟まれているかチェックするメソッド。
-        // int型の配列として、左上が挟まれていたら1、真上なら2、右上なら3、右なら4、右下なら5
-        // 真下なら6、左下なら7、左なら8を代入していく。
-
+    /**
+     * どの方向が挟まれているかチェックするメソッド。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @param lineRow 横の行数、縦の列数の情報が入ったint配列。
+     * @return int型の配列として、左上が挟まれていたら0番目に1、上なら1番目に2、右上なら2番目に3、右なら3番目に4、右下なら4番目に5、下なら5番目に6、左下なら6番目に7、左なら7番目に8を代入する。
+     */
+    public int[] directionStone(String stone, int[] lineRow) {
         int line = lineRow[0];
         int row = lineRow[1];
         String anotherStone = "";
@@ -342,8 +368,13 @@ public class Player {
         return direction;
     }
 
+    /**
+     * 石をひっくり返すメソッド
+     * @param direction 石を挟んでいる方向。
+     * @param stone プレイヤーが持っている石。（白または黒）OthelloBoard.black または、OthelloBoard.Whiteを使う。
+     * @param lineRow 横の行数、縦の列数の情報が入ったint配列。
+     */
     public void turnAStone(int[] direction, String stone, int[] lineRow) {
-        // 挟んでいる時に、石をひっくり返すメソッド
         int line = lineRow[0];
         int row = lineRow[1];
         String anotherStone = "";
