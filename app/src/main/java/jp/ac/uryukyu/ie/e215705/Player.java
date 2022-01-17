@@ -5,6 +5,9 @@ import static jp.ac.uryukyu.ie.e215705.OthelloBoard.aBoard;
 import static jp.ac.uryukyu.ie.e215705.OthelloBoard.black;
 import static jp.ac.uryukyu.ie.e215705.OthelloBoard.white;
 
+/**
+ * プレイヤーの操作を行うクラス。
+ */
 public class Player {
 
     /**

@@ -1,5 +1,8 @@
 package jp.ac.uryukyu.ie.e215705;
 
+/**
+ * 白のプレイヤーの操作を行うクラス。
+ */
 public class WhitePlayer {
 
     /**

@@ -1,5 +1,7 @@
 package jp.ac.uryukyu.ie.e215705;
-
+/**
+ * ゲームの開始、終了、盤面を行うクラス。
+ */
 public class OthelloBoard {
     static String white = "○";
     static String black = "●";

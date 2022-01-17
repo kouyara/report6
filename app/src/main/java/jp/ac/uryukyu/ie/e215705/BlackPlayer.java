@@ -1,5 +1,7 @@
 package jp.ac.uryukyu.ie.e215705;
-
+/**
+ * 黒のプレイヤーの操作を行うクラス。
+ */
 public class BlackPlayer {
 
     /**
